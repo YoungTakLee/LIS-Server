@@ -21,6 +21,12 @@ public class WebController {
     WebController(UserService userService) {
         this.userService = userService;
     }
+    @GetMapping("/screen/banner")
+    public ModelAndView redirectHome() {
+        return indexPage();
+    }
+
+
 
     @GetMapping("/")
     public ModelAndView indexPage() {

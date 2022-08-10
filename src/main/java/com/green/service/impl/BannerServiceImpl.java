@@ -6,6 +6,7 @@ import com.green.dto.BannerListDto;
 import com.green.dto.ResponseDto;
 import com.green.entity.BannerEntity;
 import com.green.entity.BannerFileEntity;
+import com.green.enums.BannerType;
 import com.green.enums.ResponseStatus;
 import com.green.repository.BannerFileRepository;
 import com.green.repository.BannerRepository;
@@ -49,6 +50,7 @@ public class BannerServiceImpl implements BannerService {
         ResponseDto responseDto = new ResponseDto<>();
         BannerEntity bannerEntity = BannerEntity.builder()
                 .title(banner.getTitle())
+                .bannerType(banner.getBannerType())
                 .bannerStartDate(LocalDate.parse(banner.getBannerStartDate()))
                 .bannerEndDate(LocalDate.parse(banner.getBannerEndDate()))
                 .build();
@@ -70,6 +72,7 @@ public class BannerServiceImpl implements BannerService {
             BannerDto returnBannerDto = BannerDto.builder()
                     .bannerIdx(bannerEntity.getId())
                     .title(banner.getTitle())
+                    .bannerType(banner.getBannerType())
                     .bannerStartDate(banner.getBannerStartDate())
                     .bannerEndDate(banner.getBannerEndDate())
                     .fileCnt(String.valueOf(bannerEntity.getBannerFileEntity().size())).build();
@@ -95,6 +98,7 @@ public class BannerServiceImpl implements BannerService {
 
         return responseDto;
     }
+
 
     @Override
     public ResponseDto<BannerDto> getBanner(Long bannerIdx) {
@@ -140,21 +144,21 @@ public class BannerServiceImpl implements BannerService {
 
 
     @Override
-    public ResponseDto getBanners(int perPage, int currenPage, String startDate, String endDate, String clientType) {
-        logger.debug("{},{},{},{},{}", perPage, currenPage, startDate, endDate, clientType);
+    public ResponseDto getBanners(int perPage, int currenPage, BannerType bannerType, String startDate, String endDate, String clientType) {
+        logger.debug("{},{},{},{},{},{}", perPage, currenPage, bannerType, startDate, endDate, clientType);
         ResponseDto<BannerListDto> responseDto = new ResponseDto();
         BannerListDto bannerListDto = new BannerListDto();
         Page<BannerEntity> bannerEntities;
         Pageable pageWithTenElements = PageRequest.of(currenPage - 1, perPage, Sort.by("id").descending());
 
         if (clientType.equalsIgnoreCase("cms")) {
-            if(StringUtils.hasText(startDate) && StringUtils.hasText(endDate)) {
-                bannerEntities = bannerRepository.findAllByBannerStartDateLessThanEqualAndAndBannerEndDateGreaterThanEqual(LocalDate.parse(startDate), LocalDate.parse(endDate), pageWithTenElements);
+            if (StringUtils.hasText(startDate) && StringUtils.hasText(endDate)) {
+                bannerEntities = bannerRepository.findAllByBannerStartDateLessThanEqualAndAndBannerEndDateGreaterThanEqualAndBannerType(LocalDate.parse(startDate), LocalDate.parse(endDate), pageWithTenElements, bannerType);
             } else {
                 bannerEntities = bannerRepository.findAll(pageWithTenElements);
             }
         } else {
-            bannerEntities = bannerRepository.findAllByBannerStartDateLessThanEqualAndAndBannerEndDateGreaterThanEqual(LocalDate.now(),LocalDate.now(),pageWithTenElements);
+            bannerEntities = bannerRepository.findAllByBannerStartDateLessThanEqualAndAndBannerEndDateGreaterThanEqualAndBannerType(LocalDate.now(), LocalDate.now(), pageWithTenElements, bannerType);
         }
 
         bannerEntities.forEach(bannerEntity -> {
@@ -177,7 +181,7 @@ public class BannerServiceImpl implements BannerService {
         try {
             bannerRepository.deleteById(bannerIdx);
             responseDto.setStatus(ResponseStatus.SUCCESS);
-        }catch (EmptyResultDataAccessException e) {
+        } catch (EmptyResultDataAccessException e) {
             responseDto.setStatus(ResponseStatus.ALREADY_DELETED);
         }
         return responseDto;
@@ -189,7 +193,7 @@ public class BannerServiceImpl implements BannerService {
         ResponseDto responseDto = new ResponseDto();
 
         Optional<BannerEntity> optionalBannerEntity = bannerRepository.findById(banner.getBannerIdx());
-        if(optionalBannerEntity.isPresent()) {
+        if (optionalBannerEntity.isPresent()) {
             try {
                 BannerEntity bannerEntity = optionalBannerEntity.get();
                 bannerFileRepository.deleteAllByBannerEntity(bannerEntity);
@@ -217,7 +221,7 @@ public class BannerServiceImpl implements BannerService {
                 responseDto.setStatus(ResponseStatus.SUCCESS);
                 responseDto.setResponseBody(getBannerDto(bannerEntity));
 
-            }catch (EmptyResultDataAccessException e) {
+            } catch (EmptyResultDataAccessException e) {
                 responseDto.setStatus(ResponseStatus.UPDATE_FAILED);
             }
         } else {

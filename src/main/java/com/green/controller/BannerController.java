@@ -2,6 +2,7 @@ package com.green.controller;
 
 import com.green.dto.BannerDto;
 import com.green.dto.ResponseDto;
+import com.green.enums.BannerType;
 import com.green.enums.ResponseStatus;
 import com.green.service.BannerService;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +33,7 @@ public class BannerController {
     @GetMapping
     public ResponseEntity<?> getBanners(@RequestParam(value = "per_page", defaultValue = "10") int perPage
             , @RequestParam(value = "cur_page", defaultValue = "0") int currenPage
+            , @RequestParam(value = "banner_type", defaultValue = "RECOMMEND") BannerType bannerType
             , @RequestParam(value = "banner_start_date", required = false) String startDate
             , @RequestParam(value = "banner_end_date", required = false) String endDate
             , @RequestParam(value = "client_type", defaultValue = "cms") String clientType) {
@@ -41,7 +43,7 @@ public class BannerController {
             responseDto.setStatus(com.green.enums.ResponseStatus.PARAMETER_ERROR);
         } else {
             try {
-                responseDto = bannerService.getBanners(perPage, currenPage, startDate, endDate, clientType);
+                responseDto = bannerService.getBanners(perPage, currenPage, bannerType, startDate, endDate, clientType);
             } catch (Exception e) {
                 log.error("Error occur from getBanner : {}", e.getMessage());
                 e.printStackTrace();

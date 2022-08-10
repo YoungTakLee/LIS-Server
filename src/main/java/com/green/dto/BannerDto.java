@@ -2,6 +2,7 @@ package com.green.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.green.enums.BannerType;
 import lombok.Builder;
 import lombok.Data;
 
@@ -20,6 +21,8 @@ public class BannerDto {
     private String bannerEndDate;
     @JsonProperty("file_count")
     private String fileCnt;
+    @JsonProperty("banner_type")
+    private BannerType bannerType;
     @JsonProperty("file_info")
     private List<BannerFileDto> fileInfo;
 }

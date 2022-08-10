@@ -1,6 +1,7 @@
 package com.green.entity;
 
 
+import com.green.enums.BannerType;
 import com.green.enums.UsedStatus;
 import lombok.*;
 
@@ -22,6 +23,10 @@ public class BannerEntity {
     @Column(name = "banner_idx")
     private long id;
     private String title;
+    @Enumerated(EnumType.STRING)
+    @Builder.Default
+    @Column(name = "banner_type")
+    private BannerType bannerType = BannerType.RECOMMEND;
     @Enumerated(EnumType.STRING)
     @Builder.Default
     private UsedStatus useYn = UsedStatus.Y;
