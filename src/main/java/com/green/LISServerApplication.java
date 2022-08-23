@@ -20,7 +20,7 @@ public class LISServerApplication {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**").allowedOrigins("http://192.168.0.201:80");
+                registry.addMapping("/**").allowedOrigins("*").allowedMethods("*");
             }
         };
     }

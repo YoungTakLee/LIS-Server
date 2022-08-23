@@ -3,6 +3,7 @@ package com.green.service;
 import com.green.dto.LectureDetailDto;
 import com.green.dto.LectureTypeDto;
 import com.green.dto.ResponseDto;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -23,4 +24,5 @@ public interface LectureService {
     ResponseDto<LectureDetailDto> getLectureDetail(int typeSeq, int detailSeq);
 
     ResponseDto<?> deleteLectureDetail(int typeSeq, int detailSeq);
+    void saveExcelFile(MultipartFile file) throws Exception;
 }

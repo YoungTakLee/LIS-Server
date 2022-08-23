@@ -1,6 +1,7 @@
 package com.green.entity;
 
 import lombok.*;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -11,6 +12,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Getter
 @Builder
+@DynamicUpdate
 public class BannerFileEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

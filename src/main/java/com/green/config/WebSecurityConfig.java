@@ -30,20 +30,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 HttpMethod.GET,
                 "/", "/static/**", "/*.js", "/*.json", "/*.ico")
                 .permitAll()
-                .and().formLogin().loginPage("/").loginProcessingUrl("/user/login").defaultSuccessUrl("/")
+                .and().formLogin().loginPage("/").loginProcessingUrl("/user/login").defaultSuccessUrl("/").permitAll()
                 .and().logout().permitAll()
                 .and().cors().disable()
                 .csrf().disable()
                 .formLogin().disable();
     }
 
-    @Bean
+    /*@Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://192.168.0.201:80"));
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH"));
+        configuration.setAllowedOrigins(Arrays.asList("*"));
+        configuration.setAllowedMethods(Arrays.asList("*"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
-    }
+    }*/
 }

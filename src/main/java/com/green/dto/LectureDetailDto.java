@@ -1,12 +1,16 @@
 package com.green.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class LectureDetailDto {
     private Integer seq;
     private Integer lectureTypeSeq;
@@ -18,4 +22,5 @@ public class LectureDetailDto {
     private String weekDay;
     private String lectureTime;
     private String desc;
+    private String materialCosts;
 }

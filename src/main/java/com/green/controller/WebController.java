@@ -21,23 +21,18 @@ public class WebController {
     WebController(UserService userService) {
         this.userService = userService;
     }
-    @GetMapping("/screen/banner")
-    public ModelAndView redirectHome() {
-        return indexPage();
-    }
 
-
-
-    @GetMapping("/")
+    @GetMapping(value = {"/", "/screen", "/screen/banner", "/screen/recommand",
+            "/banner/new", "/banner/{path}", "/recommandImage/new", "/recommandImage/{path}"})
     public ModelAndView indexPage() {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("index");
         return mav;
     }
 
-        @PostMapping(value = "/user/register")
+    @PostMapping(value = "/user/register")
     public ResponseEntity registerUser(@RequestBody LoginUserDto loginUserDto) {
-        return new ResponseEntity<>(userService.registerCmsUser(loginUserDto),HttpStatus.OK);
+        return new ResponseEntity<>(userService.registerCmsUser(loginUserDto), HttpStatus.OK);
     }
 
     @GetMapping(value = "/user/login")

@@ -155,7 +155,7 @@ public class BannerServiceImpl implements BannerService {
             if (StringUtils.hasText(startDate) && StringUtils.hasText(endDate)) {
                 bannerEntities = bannerRepository.findAllByBannerStartDateLessThanEqualAndAndBannerEndDateGreaterThanEqualAndBannerType(LocalDate.parse(startDate), LocalDate.parse(endDate), pageWithTenElements, bannerType);
             } else {
-                bannerEntities = bannerRepository.findAll(pageWithTenElements);
+                bannerEntities = bannerRepository.findAllByBannerType(pageWithTenElements,bannerType);
             }
         } else {
             bannerEntities = bannerRepository.findAllByBannerStartDateLessThanEqualAndAndBannerEndDateGreaterThanEqualAndBannerType(LocalDate.now(), LocalDate.now(), pageWithTenElements, bannerType);
@@ -202,6 +202,7 @@ public class BannerServiceImpl implements BannerService {
                         .bannerStartDate(LocalDate.parse(banner.getBannerStartDate()))
                         .bannerEndDate(LocalDate.parse(banner.getBannerEndDate()))
                         .title(banner.getTitle())
+                        .bannerType(bannerEntity.getBannerType())
                         .regDate(bannerEntity.getRegDate())
                         .updateDate(LocalDateTime.now()).build();
                 if (banner.getFileInfo().size() > 0) {

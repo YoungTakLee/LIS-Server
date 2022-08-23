@@ -3,12 +3,16 @@ package com.green.controller;
 import com.green.dto.LectureDetailDto;
 import com.green.dto.LectureTypeDto;
 import com.green.dto.ResponseDto;
+import com.green.enums.ResponseStatus;
 import com.green.service.LectureService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -130,5 +134,16 @@ public class LectureController {
         }
 
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
+    }
+
+    @PostMapping("/excel")
+    public ResponseEntity<?> readExcelFile(@RequestPart("file") MultipartFile file) {
+        try {
+            lectureService.saveExcelFile(file);
+            return new ResponseEntity<>(new ResponseDto<>(ResponseStatus.SUCCESS),HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("message", e);
+            return new ResponseEntity<>(e.getLocalizedMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

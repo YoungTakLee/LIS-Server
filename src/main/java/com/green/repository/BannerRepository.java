@@ -10,4 +10,5 @@ import java.time.LocalDate;
 
 public interface BannerRepository extends JpaRepository<BannerEntity, Long> {
     Page<BannerEntity> findAllByBannerStartDateLessThanEqualAndAndBannerEndDateGreaterThanEqualAndBannerType(LocalDate startDate, LocalDate endDate, Pageable pageable, BannerType bannerType);
+    Page<BannerEntity> findAllByBannerType(Pageable pageable, BannerType bannerType);
 }

@@ -3,7 +3,11 @@ package com.green.entity;
 
 import com.green.enums.BannerType;
 import com.green.enums.UsedStatus;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -17,6 +21,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Builder
+@DynamicUpdate
 public class BannerEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,9 +29,8 @@ public class BannerEntity {
     private long id;
     private String title;
     @Enumerated(EnumType.STRING)
-    @Builder.Default
     @Column(name = "banner_type")
-    private BannerType bannerType = BannerType.RECOMMEND;
+    private BannerType bannerType;
     @Enumerated(EnumType.STRING)
     @Builder.Default
     private UsedStatus useYn = UsedStatus.Y;
@@ -38,7 +42,7 @@ public class BannerEntity {
     @Builder.Default
     private LocalDateTime updateDate = LocalDateTime.now();
 
-    @OneToMany(mappedBy = "bannerEntity",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "bannerEntity", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @Builder.Default
     private List<BannerFileEntity> bannerFileEntity = new ArrayList<>();
 

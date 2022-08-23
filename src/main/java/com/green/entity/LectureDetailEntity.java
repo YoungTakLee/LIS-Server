@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Getter
 @Builder
+@DynamicUpdate
 public class LectureDetailEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,6 +35,8 @@ public class LectureDetailEntity {
     @Column(name = "lecture_time")
     private String lectureTime;
     private String desc;
+    @Column(name = "material_costs")
+    private String materialCosts;
     @Column(updatable = false)
     @Builder.Default
     private LocalDateTime regDate = LocalDateTime.now();
@@ -55,6 +59,7 @@ public class LectureDetailEntity {
                 ", weekDay='" + weekDay + '\'' +
                 ", lectureTime='" + lectureTime + '\'' +
                 ", desc='" + desc + '\'' +
+                ", materialCosts='" + materialCosts + '\'' +
                 ", regDate=" + regDate +
                 '}';
     }
