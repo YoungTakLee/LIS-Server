@@ -1,7 +1,8 @@
 package com.green.controller;
 
+import com.green.dto.CenterDto;
 import com.green.dto.LectureDetailDto;
-import com.green.dto.LectureTypeDto;
+import com.green.dto.CenterDto;
 import com.green.dto.ResponseDto;
 import com.green.enums.ResponseStatus;
 import com.green.service.LectureService;
@@ -24,10 +25,10 @@ public class LectureController {
     private final LectureService lectureService;
 
     @PostMapping
-    public ResponseEntity<?> insertLectureType(@RequestBody LectureTypeDto lectureTypeDto) {
-        ResponseDto<LectureTypeDto> responseDto;
+    public ResponseEntity<?> insertLectureType(@RequestBody CenterDto centerDto) {
+        ResponseDto<CenterDto> responseDto;
         try {
-            responseDto = lectureService.insertLectureType(lectureTypeDto);
+            responseDto = lectureService.insertLectureType(centerDto);
         } catch (Exception e) {
             log.error("Error occur from insertLectureType : ", e);
             responseDto = new ResponseDto<>(com.green.enums.ResponseStatus.INTERNAL_SERVER_ERROR);
@@ -37,10 +38,10 @@ public class LectureController {
     }
 
     @DeleteMapping(value = "{typeSeq}")
-    public ResponseEntity<?> deleteLectureType(@PathVariable int typeSeq) {
+    public ResponseEntity<?> deleteLectureType(@PathVariable int typeSeq, @RequestBody String password) {
         ResponseDto<?> responseDto;
         try {
-            responseDto = lectureService.deleteLectureType(typeSeq);
+            responseDto = lectureService.deleteLectureType(typeSeq,password);
         } catch (Exception e) {
             log.error("Error occur from deleteLectureType : ", e);
             responseDto = new ResponseDto<>(com.green.enums.ResponseStatus.INTERNAL_SERVER_ERROR);
@@ -50,10 +51,10 @@ public class LectureController {
     }
 
     @PutMapping
-    public ResponseEntity<?> updateLectureType(@RequestBody LectureTypeDto lectureTypeDto) {
-        ResponseDto<LectureTypeDto> responseDto;
+    public ResponseEntity<?> updateLectureType(@RequestBody CenterDto ce) {
+        ResponseDto<CenterDto> responseDto;
         try {
-            responseDto = lectureService.updateLectureType(lectureTypeDto);
+            responseDto = lectureService.updateLectureType(ce);
         } catch (Exception e) {
             log.error("Error occur from updateLectureType : ", e);
             responseDto = new ResponseDto<>(com.green.enums.ResponseStatus.INTERNAL_SERVER_ERROR);
@@ -64,7 +65,7 @@ public class LectureController {
 
     @GetMapping
     public ResponseEntity<?> getLectureTitles() {
-        ResponseDto<List<LectureTypeDto>> responseDto = new ResponseDto<>();
+        ResponseDto<List<CenterDto>> responseDto = new ResponseDto<>();
         try {
             responseDto = lectureService.getAllLectureTypeList();
         } catch (Exception e) {
@@ -137,13 +138,12 @@ public class LectureController {
     }
 
     @PostMapping("/excel")
-    public ResponseEntity<?> readExcelFile(@RequestPart("file") MultipartFile file) {
+    public ResponseEntity<?> readExcelFile(@RequestPart("file") MultipartFile file, @RequestPart("center") CenterDto centerDto) {
         try {
-            lectureService.saveExcelFile(file);
-            return new ResponseEntity<>(new ResponseDto<>(ResponseStatus.SUCCESS),HttpStatus.OK);
+            return new ResponseEntity<>(lectureService.saveExcelFile(file,centerDto),HttpStatus.OK);
         } catch (Exception e) {
             log.error("message", e);
-            return new ResponseEntity<>(e.getLocalizedMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(new ResponseDto<>(ResponseStatus.EXCEL_INSERT_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

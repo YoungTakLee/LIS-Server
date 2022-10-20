@@ -1,6 +1,9 @@
 package com.green.entity;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
@@ -15,7 +18,7 @@ import java.time.LocalDateTime;
 @DynamicUpdate
 public class BannerFileEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "banner_file_idx")
     private Long id;
     private String filePath;

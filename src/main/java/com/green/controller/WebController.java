@@ -2,6 +2,7 @@ package com.green.controller;
 
 import com.green.dto.LoginUserDto;
 import com.green.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
+@Slf4j
 public class WebController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final UserService userService;
@@ -22,8 +24,7 @@ public class WebController {
         this.userService = userService;
     }
 
-    @GetMapping(value = {"/", "/screen", "/screen/banner", "/screen/recommand",
-            "/banner/new", "/banner/{path}", "/recommandImage/new", "/recommandImage/{path}"})
+    @GetMapping(value = "/")
     public ModelAndView indexPage() {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("index");
@@ -54,5 +55,26 @@ public class WebController {
             logger.error("message : {}", e.getMessage());
             return new ResponseEntity<>(e.getLocalizedMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @GetMapping(value = "/hbcheck")
+    public ResponseEntity<?> heartbeatCheck() {
+        return new ResponseEntity<>(null, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/powerOff")
+    public ResponseEntity<?> powerOff() {
+        Thread th = new Thread(() -> {
+            Runtime rt = Runtime.getRuntime();
+            try {
+                Thread.sleep(3000L);
+                rt.exec("shutdown -s -t 1");
+            } catch (Exception ex) {
+                log.error("message : {}", ex);
+            }
+        });
+
+        th.start();
+        return new ResponseEntity<>(null,HttpStatus.OK);
     }
 }

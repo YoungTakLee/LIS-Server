@@ -13,11 +13,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class LectureDetailDto {
     private Integer seq;
-    private Integer lectureTypeSeq;
+    private Integer centerSeq;
+    private String centerPassword;
     private String title;
     private String method;
     private String instructor;
-    private Integer recruitmentCount;
+    private String recruitmentCount;
     private String roomNo;
     private String weekDay;
     private String lectureTime;

@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @Builder
 public class PollMasterEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "idx")
     private int idx;
     @Column(name = "master_id")

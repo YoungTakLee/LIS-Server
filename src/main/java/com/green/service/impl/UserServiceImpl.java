@@ -46,14 +46,16 @@ public class UserServiceImpl implements UserService {
                 .password(passwordEncoder.encode(loginUserDto.getPassword()))
                 .build();
         try {
-            cmsUserRepository.save(userEntity);
-            responseDto.setStatus(ResponseStatus.SUCCESS);
+            if(null != cmsUserRepository.findByLoginId(loginUserDto.getAdminID())) {
+                responseDto.setStatus(ResponseStatus.ALREADY_REGISTERED);
+            } else {
+                cmsUserRepository.save(userEntity);
+                responseDto.setStatus(ResponseStatus.SUCCESS);
+            }
             responseDto.setResponseBody(userEntity);
         } catch (Exception e) {
-
+            logger.error("message",e);
         }
-
         return responseDto;
-
     }
 }

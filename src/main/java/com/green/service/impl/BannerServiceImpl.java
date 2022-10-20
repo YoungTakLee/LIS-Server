@@ -34,13 +34,16 @@ public class BannerServiceImpl implements BannerService {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private BannerRepository bannerRepository;
     private BannerFileRepository bannerFileRepository;
+    private LisWebSocketService lisWebSocketService;
     //private final Path rootLocationBanner;
     @Value("${server.port:#{null}}")
     private String port;
 
-    BannerServiceImpl(BannerRepository bannerRepository, BannerFileRepository bannerFileRepository) {
+    BannerServiceImpl(BannerRepository bannerRepository, BannerFileRepository bannerFileRepository,
+                      LisWebSocketService lisWebSocketService) {
         this.bannerRepository = bannerRepository;
         this.bannerFileRepository = bannerFileRepository;
+        this.lisWebSocketService = lisWebSocketService;
         //this.rootLocationBanner = Paths.get(properties.getLocationBanner());
     }
 
@@ -90,6 +93,8 @@ public class BannerServiceImpl implements BannerService {
                                 .build();
                         return bannerFileDto;
                     }).collect(Collectors.toList()));
+
+            lisWebSocketService.sendMessage();
             responseDto.setResponseBody(returnBannerDto);
             responseDto.setStatus(ResponseStatus.SUCCESS);
         } else {
@@ -181,6 +186,7 @@ public class BannerServiceImpl implements BannerService {
         try {
             bannerRepository.deleteById(bannerIdx);
             responseDto.setStatus(ResponseStatus.SUCCESS);
+            lisWebSocketService.sendMessage();
         } catch (EmptyResultDataAccessException e) {
             responseDto.setStatus(ResponseStatus.ALREADY_DELETED);
         }
@@ -218,7 +224,7 @@ public class BannerServiceImpl implements BannerService {
                     });
                 }
                 bannerRepository.save(build);
-
+                lisWebSocketService.sendMessage();
                 responseDto.setStatus(ResponseStatus.SUCCESS);
                 responseDto.setResponseBody(getBannerDto(bannerEntity));
 

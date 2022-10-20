@@ -2273,7 +2273,7 @@
             }), Object($.a)(vt, At.LOCALHOST, {
                 PROD: "http://localhost:28080",
                 DEV: "http://localhost:28080"
-            }), Object($.a)(vt, At.BULMU, {PROD: "http://192.168.0.201", DEV: "http://180.81.174.146:28080"}), vt),
+            }), Object($.a)(vt, At.BULMU, {PROD: "http://localhost", DEV: "http://180.81.174.146:28080"}), vt),
             Bt = (n(482), n(64)), zt = n(204), Ht = n.n(zt), Yt = n(264), Ft = n(81), Ut = n(52), Wt = function () {
                 var e = Object(F.a)(H.a.mark((function e() {
                     var t, n;

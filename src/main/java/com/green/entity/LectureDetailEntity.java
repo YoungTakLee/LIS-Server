@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 @DynamicUpdate
 public class LectureDetailEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "lecture_detail_seq",updatable = false)
     private int lectureDetailSeq;
     @Column(name = "lecture_title")
@@ -27,7 +27,7 @@ public class LectureDetailEntity {
     private String method;
     private String instructor;
     @Column(name = "recruitment_count")
-    private int recruitmentCount;
+    private String recruitmentCount;
     @Column(name = "room_no")
     private String roomNo;
     @Column(name = "week_day")
@@ -44,8 +44,8 @@ public class LectureDetailEntity {
     private LocalDateTime updateDate = LocalDateTime.now();
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "lecture_type_seq")
-    private LectureTypeEntity lectureType;
+    @JoinColumn(name = "center_seq")
+    private CenterEntity centerEntity;
 
     @Override
     public String toString() {

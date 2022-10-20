@@ -24,7 +24,7 @@ import java.util.List;
 @DynamicUpdate
 public class BannerEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "banner_idx")
     private long id;
     private String title;

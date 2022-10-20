@@ -15,12 +15,11 @@ spring:
     password:
   jpa:
     show-sql: true
-    hibernate:
-      ddl-auto: update
     database-platform: org.hibernate.dialect.H2Dialect
     properties:
       hibernate:
         format_sql: true
+    generate-ddl: true
   mvc:
     static-path-pattern: /static/**
   servlet:

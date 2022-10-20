@@ -18,6 +18,8 @@ public enum ResponseStatus {
     ,INTERNAL_SERVER_ERROR(500,"Internal server error")
     ,REMOTE_SERVER_ERROR(510,"Remote server error")
     ,BETWEEN_PARAMETER_ERROR(406,"The toData is must be bigger than fromData")
+    ,EXCEL_INSERT_ERROR(500,"Check the excel file.")
+    ,ALREADY_REGISTERED(505,"The user is already registered")
     //희망도서 관련 Status Code 앞자리 1000번대부터 시작
     ,LAS_HOPE_BOOK_APPLY_SUCCESS(1200,"LAS Hope book apply Success")
     ,HOPE_BOOK_APPLY_SUCCESS(1210,"Apply Success")
@@ -35,6 +37,8 @@ public enum ResponseStatus {
     ,THIS_USER_IS_BANED(3200,"This user is registered the blacklist.")
     ,SEARCH_TYPE_ERROR(3400,"Check the search type parameter")
     ,USER_IS_NO_REG_THE_BLACKLIST(3404,"This user is not registered the blacklist.")
+    //LIS 강좌 등록관련 4000번대부터 시작
+    ,CHECK_THE_CENTER_PASSWORD(4001,"Check the center password.")
     //LAS 관련 Status Code 9000번대부터 시작
     ,LAS_SERVER_ERROR(9000,"Las Server Error")
     ,THERE_IS_NO_LOAN_HISTORY(9400,"Not exist loan history")
